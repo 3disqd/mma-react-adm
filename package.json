@@ -1,0 +1,48 @@
+{
+  "name": "mma-react-adm",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^4.0.3",
+    "axios": "^0.19.2",
+    "babel-plugin-import": "^1.13.0",
+    "customize-cra": "^0.9.1",
+    "react": "^16.13.0",
+    "react-app-rewired": "^2.1.5",
+    "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.0"
+  },
+  "scripts": {
+    "start": "PORT=3030 react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "build-and-surge-deploy": "yarn run build && cd build && surge --domain https://test-3disqd-vk-mini-app.surge.sh",
+    "surge-deploy": "surge --domain https://test-3disqd-vk-mini-app.surge.sh",
+    "aws-sync": "aws --endpoint-url=https://storage.yandexcloud.net s3 sync --delete --exclude='*.map' --exclude='.DS_Store' build/ s3://skv/"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "singleQuote": true
+  }
+}

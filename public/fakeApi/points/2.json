@@ -1,0 +1,16 @@
+{
+  "id": 2,
+  "name": "Пицца миа",
+  "cover": "/images/point2.png",
+  "groups": [
+    {
+      "name": "Супы",
+      "products": [
+        {
+          "id": 1,
+          "name": "harcho"
+        }
+      ]
+    }
+  ]
+}

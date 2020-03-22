@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Мясоруб",
+    "groups": [
+      {
+        "name": "Супы",
+        "products": [
+          {
+            "id": 1,
+            "name": "harcho"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Пицца миа",
+    "groups": [
+      {
+        "name": "Супы",
+        "products": [
+          {
+            "id": 1,
+            "name": "harcho"
+          }
+        ]
+      }
+    ]
+  }
+]

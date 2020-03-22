@@ -1,0 +1,58 @@
+{
+  "id": 1,
+  "name": "Мясоруб",
+  "cover": "/images/point1.png",
+  "groups": [
+    {
+      "name": "Супы",
+      "products": [
+        {
+          "id": 1,
+          "name": "harcho"
+        }
+      ]
+    },
+    {
+      "name": "Бургеры",
+      "products": [
+        {
+          "id": 2,
+          "name": "хипстер"
+        },
+        {
+          "id": 3,
+          "name": "wopper"
+        },
+        {
+          "id": 4,
+          "name": "chees"
+        },
+        {
+          "id": 5,
+          "name": "vegi"
+        },
+        {
+          "id": 6,
+          "name": "chiken"
+        },
+        {
+          "id": 7,
+          "name": "bigmac"
+        }
+      ]
+    },
+    {
+      "name": "Салаты",
+      "products": [
+        {
+          "id": 8,
+          "name": "carrot"
+        },
+        {
+          "id": 9,
+          "name": "tomato"
+        }
+      ]
+    }
+  ]
+}
