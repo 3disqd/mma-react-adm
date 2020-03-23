@@ -6,6 +6,7 @@ const EditableTable = ({
   columnsSettings,
   dataSource,
   editingKey,
+  loading,
   // ...props
 }) => {
   const columns = columnsSettings.map(col => {
@@ -38,6 +39,7 @@ const EditableTable = ({
       bordered
       dataSource={dataSource}
       columns={columns}
+      loading={loading}
     />
   );
 };

@@ -4,10 +4,8 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
-const LoginForm = () => {
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
-  };
+const LoginForm = ({ onFinish, error }) => {
+
   return (
     <div className={styles.loginForm}>
       <Form
@@ -16,14 +14,23 @@ const LoginForm = () => {
         initialValues={{
           remember: true,
         }}
+        validateMessages={{
+          required: 'This field is required!',
+          types: {
+            email: 'Not a validate email!',
+          },
+        }}
         onFinish={onFinish}
       >
         <Form.Item
-          name="username"
+          name="email"
+          help={error || undefined}
+          validateStatus={!!error ? 'error' : undefined}
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              // message: 'Please input your Username!',
+              type: 'email',
             },
           ]}
         >
@@ -31,10 +38,12 @@ const LoginForm = () => {
         </Form.Item>
         <Form.Item
           name="password"
+          help={error || undefined}
+          validateStatus={!!error ? 'error' : undefined}
           rules={[
             {
               required: true,
-              message: 'Please input your Password!',
+              // message: 'Please input your Password!',
             },
           ]}
         >

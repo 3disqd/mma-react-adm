@@ -9,8 +9,9 @@ import {
 } from 'react-router-dom';
 import Header from './components/Header/Header';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import Login from './pages/Login';
-import Organization from './pages/Organization';
+import LoginPage from './pages/LoginPage';
+import OrganizationPage from './pages/OrganizationPage';
+import ExampleTablePage from './pages/ExampleTablePage';
 
 const App = () => {
   return (
@@ -23,7 +24,8 @@ const App = () => {
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
       <Switch>
-        <Route path={'/org'} component={Organization} />
+        <Route path={'/org'} component={OrganizationPage} />
+        <Route path={'/exampleTable'} component={ExampleTablePage} />
         <Route path="/about">
           <div>about</div>
         </Route>
@@ -33,9 +35,9 @@ const App = () => {
         {/*<Route path="/users" >*/}
         {/*</Route>*/}
         <Route path="/fakelogin">
-          <LoginPage />
+          <FakeLoginPage />
         </Route>
-        <Route path={'/login'} component={Login} />
+        <Route path={'/login'} component={LoginPage} />
         <Route path="/">
           <div>home</div>
           <AuthButton />
@@ -76,7 +78,7 @@ export const fakeAuth = {
   },
 };
 
-function LoginPage() {
+function FakeLoginPage() {
   let history = useHistory();
   let location = useLocation();
 

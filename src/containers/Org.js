@@ -1,35 +1,56 @@
-import React, { useState } from 'react';
-import OrganizationTable from './OrganizationTable/OrganizationTable';
+import React, { useEffect, useState } from 'react';
+import OrganizationTable from '../components/OrganizationTable/OrganizationTable';
+import api from '../api/v0';
 
 const Org = () => {
-  const [data, setData] = useState([
-    {
-      id: '123',
-      key: '123',
-      name: 'Edward King 0',
-      age: '32',
-      address: 'London, Park Lane no. 0',
-    },
-    {
-      id: '312',
-      key: '321',
-      name: 'Edward  1',
-      age: '32',
-      address: 'London, Park Lane no. 1',
-    },
-  ]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getAll();
+  }, []);
+
+  const getAll = () => {
+    setLoading(true);
+    api.organization
+      .getAll()
+      .then(res => {
+        // console.log(res);
+        setData(
+          res.data
+            .map(organization => ({
+              ...organization,
+              key: organization.id,
+            }))
+            .reverse()
+        );
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
 
   const add = item => {
-    console.log(item);
-    const newData = [
-      {
-        ...item,
-        key: 123 + data.length + '',
-        id: 123 + data.length + '',
-      },
-      ...data,
-    ];
-    setData(newData);
+    setLoading(true);
+    api.organization
+      .create(item.name)
+      .then(res => {
+        const newData = [
+          {
+            ...res.data,
+            key: res.data.id,
+          },
+          ...data,
+        ];
+        setData(newData);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   const update = (key, row) => {
@@ -40,8 +61,21 @@ const Org = () => {
     setData(newData);
   };
 
+  const nameFilters = [
+    { text: 'Smith', value: 'Smith' },
+    { text: 'Bush', value: 'Bush' },
+    { text: 'Alice', value: 'Alice' },
+  ];
+
   return (
-    <OrganizationTable data={data} createNewItem={add} updateItem={update} />
+    <OrganizationTable
+      data={data}
+      createNewItem={add}
+      updateItem={update}
+      nameFilters={nameFilters}
+      loading={loading}
+      getAll={getAll}
+    />
   );
 };
 

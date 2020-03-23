@@ -13,6 +13,9 @@ const Header = () => {
         <Link to="/org">Organization</Link>
       </Menu.Item>
       <Menu.Item>
+        <Link to="/exampleTable">exampleTable</Link>
+      </Menu.Item>
+      <Menu.Item>
         <Link to="/about">About</Link>
       </Menu.Item>
       <Menu.Item>

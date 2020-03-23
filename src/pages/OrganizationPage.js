@@ -1,8 +1,8 @@
 import React from 'react';
 import Org from '../containers/Org';
 
-const Organization = () => {
+const OrganizationPage = () => {
   return <Org />;
 };
 
-export default Organization;
+export default OrganizationPage;

@@ -10,12 +10,15 @@
     "react": "^16.13.0",
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.13.0",
+    "react-highlight-words": "^0.16.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "@ant-design/icons": "latest"
   },
   "scripts": {
     "start": "PORT=3030 react-app-rewired start",
     "build": "react-app-rewired build",
+    "build:react": "react-scripts build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "build-and-surge-deploy": "yarn run build && cd build && surge --domain https://test-3disqd-vk-mini-app.surge.sh",

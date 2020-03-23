@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'antd';
-import EditableTable from '../../components/EditableTable/EditableTable';
-import EditableOperationCell from '../../components/EditableOperationCell/EditableOperationCell';
+import EditableTable from '../EditableTable/EditableTable';
+import EditableOperationCell from '../EditableOperationCell/EditableOperationCell';
 
 const OrganizationTable = ({
   data,
   createNewItem = () => {},
   updateItem = () => {},
+  // nameFilters = [],
+  loading,
+  getAll = () => {},
 }) => {
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState('');
   const [newItems, setNewItems] = useState([]);
-
-  useEffect(() => {
-    console.log(form.getFieldsValue());
-  }, [form]);
 
   const handleAdd = () => {
     const newItem = {
@@ -61,24 +60,18 @@ const OrganizationTable = ({
 
   const columns = [
     {
+      title: 'id',
+      dataIndex: 'id',
+      // width: '25%',
+      editable: false,
+      required: false,
+    },
+    {
       title: 'name',
       dataIndex: 'name',
-      width: '25%',
+      // width: '15%',
       editable: true,
       required: true,
-    },
-    {
-      title: 'age',
-      dataIndex: 'age',
-      width: '15%',
-      editable: true,
-      required: true,
-    },
-    {
-      title: 'address',
-      dataIndex: 'address',
-      width: '40%',
-      editable: true,
     },
     {
       title: 'operation',
@@ -108,11 +101,22 @@ const OrganizationTable = ({
       >
         Add a row
       </Button>
+      <Button
+        onClick={getAll}
+        type="primary"
+        disabled={editingKey !== ''}
+        style={{
+          marginBottom: 16,
+        }}
+      >
+        Reload
+      </Button>
       <Form form={form} component={false}>
         <EditableTable
           columnsSettings={columns}
           dataSource={[...newItems, ...data]}
           editingKey={editingKey}
+          loading={loading}
         />
       </Form>
     </>
