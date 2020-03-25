@@ -19,11 +19,13 @@ const EditableTable = ({
       onCell: record => ({
         record,
         //TODO сделать нормальный инпут тайп
-        inputType: col.dataIndex === 'age' ? 'number' : 'text',
+        inputType: col.inputType,
         dataIndex: col.dataIndex,
         title: col.title,
         editing: editingKey === record.key,
         required: col.required,
+        placeholder: col.placeholder,
+        rules: col.rules,
       }),
     };
   });

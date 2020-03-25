@@ -10,9 +10,16 @@ const EditableCell = ({
   index,
   children,
   required,
+  placeholder,
+  rules = [],
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const inputNode =
+    inputType === 'number' ? (
+      <InputNumber placeholder={placeholder} />
+    ) : (
+      <Input placeholder={placeholder} />
+    );
   return (
     <td {...restProps}>
       {editing ? (
@@ -26,6 +33,7 @@ const EditableCell = ({
               required: required,
               message: `Please Input ${title}!`,
             },
+            ...rules,
           ]}
         >
           {inputNode}
