@@ -54,11 +54,32 @@ const Org = () => {
   };
 
   const update = (key, row) => {
-    const newData = [...data];
-    const index = newData.findIndex(item => key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, { ...item, ...row });
-    setData(newData);
+    // console.log(row);
+    const update = {
+      ...(row.name && { name: row.name }),
+      ...(row.kek && { kek: row.kek }),
+    };
+    setLoading(true);
+    api.organization
+      .update(key, update)
+      .then(res => {
+        const newData = [...data];
+        const index = newData.findIndex(item => res.data.id === item.key);
+        // const item = newData[index];
+        newData.splice(index, 1, { key: res.data.id, ...res.data });
+        setData(newData);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+
+    // const newData = [...data];
+    // const index = newData.findIndex(item => key === item.key);
+    // const item = newData[index];
+    // newData.splice(index, 1, { ...item, ...row });
+    // setData(newData);
   };
 
   const nameFilters = [

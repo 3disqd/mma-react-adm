@@ -6,4 +6,5 @@ export default {
   getAll: (email, password) =>
     AxiosMMMA.get('/organization/', { email, password }),
   create: name => AxiosMMMA.post('/organization', { name }),
+  update: (id, update = {}) => AxiosMMMA.patch('/organization', { id, update }),
 };
