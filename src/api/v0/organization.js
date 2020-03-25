@@ -1,10 +1,12 @@
 import { AxiosMMMA } from './index.js';
 // import uuid from "uuid";
 
+const route = '/organizations/';
+
 export default {
   // get: () => API.get('/users.json'),
-  getAll: (email, password) =>
-    AxiosMMMA.get('/organization/', { email, password }),
-  create: name => AxiosMMMA.post('/organization', { name }),
-  update: (id, update = {}) => AxiosMMMA.patch('/organization', { id, update }),
+  getAll: () => AxiosMMMA.get(route),
+  getById: id => AxiosMMMA.get(route + id),
+  create: name => AxiosMMMA.post(route, { name }),
+  update: (id, update = {}) => AxiosMMMA.patch(route, { id, update }),
 };

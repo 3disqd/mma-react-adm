@@ -1,6 +1,7 @@
 import axios from 'axios';
 import user from './user.js';
 import organization from './organization.js';
+import product from './product';
 
 export const AxiosMMMA = axios.create({
   baseURL: 'http://localhost:3000/api/v0/',
@@ -39,4 +40,5 @@ AxiosMMMA.interceptors.response.use(
 export default {
   user,
   organization,
+  product
 };

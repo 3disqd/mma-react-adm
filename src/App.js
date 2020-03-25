@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import OrganizationPage from './pages/OrganizationPage';
 import ExampleTablePage from './pages/ExampleTablePage';
+import ProductsPage from './pages/ProductsPage';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
       <Switch>
+        <Route path={'/org/:orgId/products'} component={ProductsPage} />
         <Route path={'/org'} component={OrganizationPage} />
         <Route path={'/exampleTable'} component={ExampleTablePage} />
         <Route path="/about">
