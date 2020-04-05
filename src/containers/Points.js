@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import OrganizationTable from '../components/OrganizationTable/OrganizationTable';
+import PointsTable from '../components/PointsTable/PointsTable';
 import api from '../api/v0';
 
-const Org = () => {
+const Points = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +12,7 @@ const Org = () => {
 
   const getAll = () => {
     setLoading(true);
-    api.organization
+    api.organizations
       .getAll()
       .then(res => {
         // console.log(res);
@@ -34,7 +34,7 @@ const Org = () => {
 
   const add = item => {
     setLoading(true);
-    api.organization
+    api.organizations
       .create(item.name)
       .then(res => {
         const newData = [
@@ -60,7 +60,7 @@ const Org = () => {
       ...(row.kek && { kek: row.kek }),
     };
     setLoading(true);
-    api.organization
+    api.organizations
       .update(key, update)
       .then(res => {
         const newData = [...data];
@@ -89,7 +89,7 @@ const Org = () => {
   ];
 
   return (
-    <OrganizationTable
+    <PointsTable
       data={data}
       createNewItem={add}
       updateItem={update}
@@ -100,4 +100,4 @@ const Org = () => {
   );
 };
 
-export default Org;
+export default Points;

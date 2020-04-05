@@ -8,5 +8,5 @@ export default {
   getAll: () => AxiosMMMA.get(route),
   getById: id => AxiosMMMA.get(route + id),
   create: name => AxiosMMMA.post(route, { name }),
-  update: (id, update = {}) => AxiosMMMA.patch(route, { id, update }),
+  update: (id, update = {}) => AxiosMMMA.patch(route + id, { update }),
 };

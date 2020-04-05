@@ -1,8 +1,8 @@
 import React from 'react';
-import Products from '../containers/Products';
+import ProductsTable from '../components/ProductsTable/ProductsTable';
 
 const ProductsPage = ({ ...props }) => {
-  return <Products orgId={props.match.params.orgId} />;
+  return <ProductsTable orgId={props.match.params.orgId} />;
 };
 
 export default ProductsPage;

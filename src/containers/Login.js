@@ -9,7 +9,7 @@ const Login = () => {
   let history = useHistory();
 
   const onSubmit = e => {
-    api.user
+    api.users
       .login(e.email, e.password)
       .then(res => {
         if (res.data.jwt) {

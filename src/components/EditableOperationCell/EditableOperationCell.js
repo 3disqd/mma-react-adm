@@ -13,8 +13,7 @@ const EditableOperationCell = ({
     <span>
       <Button
         type="link"
-        onClick={() => onSave(record.key)}
-        // onClick={() => save(record.key)}
+        onClick={() => onSave(record._id)}
         style={{
           marginRight: 8,
         }}
@@ -29,9 +28,7 @@ const EditableOperationCell = ({
     <Button
       type="link"
       disabled={isEditDisabled}
-      // disabled={editingKey !== ''}
       onClick={() => onEdit(record)}
-      // onClick={() => edit(record)}
     >
       Edit
     </Button>

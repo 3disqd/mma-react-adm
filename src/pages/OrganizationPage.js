@@ -1,8 +1,8 @@
 import React from 'react';
-import Org from '../containers/Org';
+import OrganizationTable from '../components/OrganizationTable/OrganizationTable';
 
 const OrganizationPage = () => {
-  return <Org />;
+  return <OrganizationTable />;
 };
 
 export default OrganizationPage;

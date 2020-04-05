@@ -11,41 +11,46 @@ import Header from './components/Header/Header';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import OrganizationPage from './pages/OrganizationPage';
-import ExampleTablePage from './pages/ExampleTablePage';
+// import ExampleTablePage from './pages/ExampleTablePage';
 import ProductsPage from './pages/ProductsPage';
+import PointsPage from './pages/PointsPage';
+import { OrganizationsProvider } from './contexts/OrganizationsContext';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Switch>
-        {/*<Route c/>*/}
-        <Route path={'/login'} component={null} />
-        <Route path={'/'} component={Header} />
-      </Switch>
-      {/* A <Switch> looks through its children <Route>s and
+    <OrganizationsProvider>
+      <BrowserRouter>
+        <Switch>
+          {/*<Route c/>*/}
+          <Route path={'/login'} component={null} />
+          <Route path={'/'} component={Header} />
+        </Switch>
+        {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-      <Switch>
-        <Route path={'/org/:orgId/products'} component={ProductsPage} />
-        <Route path={'/org'} component={OrganizationPage} />
-        <Route path={'/exampleTable'} component={ExampleTablePage} />
-        <Route path="/about">
-          <div>about</div>
-        </Route>
-        <PrivateRoute path={'/users'}>
-          <div>users</div>
-        </PrivateRoute>
-        {/*<Route path="/users" >*/}
-        {/*</Route>*/}
-        <Route path="/fakelogin">
-          <FakeLoginPage />
-        </Route>
-        <Route path={'/login'} component={LoginPage} />
-        <Route path="/">
-          <div>home</div>
-          <AuthButton />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+        <Switch>
+          <Route path={'/org/:orgId/products'} component={ProductsPage} />
+          <Route path={'/org'} component={OrganizationPage} />
+          <Route path={'/point'} component={PointsPage} />
+          {/*<Route path={'/exampleTable'} component={ExampleTablePage} />*/}
+          <Route path="/about">
+            <div>about</div>
+          </Route>
+          <PrivateRoute path={'/users'}>
+            <div>users</div>
+          </PrivateRoute>
+          {/*<Route path="/users" >*/}
+          {/*</Route>*/}
+          <Route path="/fakelogin">
+            <FakeLoginPage />
+          </Route>
+          <Route path={'/login'} component={LoginPage} />
+          <Route path="/">
+            <div>home</div>
+            <AuthButton />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </OrganizationsProvider>
   );
 };
 
