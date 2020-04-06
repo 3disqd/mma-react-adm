@@ -1,8 +1,8 @@
 import React from 'react';
-import Points from '../containers/Points';
+import PointsTable from '../components/PointsTable/PointsTable';
 
-const PointsPage = () => {
-  return <Points />;
+const PointsPage = ({ ...props }) => {
+  return <PointsTable orgId={props.match.params.orgId} />;
 };
 
 export default PointsPage;

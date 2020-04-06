@@ -1,8 +1,8 @@
 import React from 'react';
-import ProductsTable from '../components/ProductsTable/ProductsTable';
+import PointsTable from '../components/PointsTable/PointsTable';
 
 const ProductsPage = ({ ...props }) => {
-  return <ProductsTable orgId={props.match.params.orgId} />;
+  return <PointsTable orgId={props.match.params.orgId} />;
 };
 
 export default ProductsPage;

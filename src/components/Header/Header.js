@@ -25,7 +25,7 @@ const Header = () => {
       >
         {/*<Menu.ItemGroup title="Item 1">*/}
         {organizations.map(i => (
-          <Menu.Item key={i._id}>
+          <Menu.Item key={i._id + 'products'}>
             <Link to={`/org/${i._id}/products`}>{i.name}</Link>
           </Menu.Item>
         ))}
@@ -40,6 +40,21 @@ const Header = () => {
         {/*  <Menu.Item key="setting:3">Option 3</Menu.Item>*/}
         {/*  <Menu.Item key="setting:4">Option 4</Menu.Item>*/}
         {/*</Menu.ItemGroup>*/}
+      </Menu.SubMenu>
+      <Menu.SubMenu
+        title={
+          <span className="submenu-title-wrapper">
+            {/*<SettingOutlined />*/}
+            Points
+          </span>
+        }
+      >
+        {/*<Menu.ItemGroup title="Item 1">*/}
+        {organizations.map(i => (
+          <Menu.Item key={i._id + 'points'}>
+            <Link to={`/org/${i._id}/points`}>{i.name}</Link>
+          </Menu.Item>
+        ))}
       </Menu.SubMenu>
       <Menu.Item>
         <Link to="/points">point</Link>

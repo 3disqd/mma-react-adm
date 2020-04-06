@@ -78,6 +78,8 @@ export const OrganizationsProvider = props => {
       });
   };
 
+  //TODO завернуть фнкции в колбеки
+
   const addProductToOrganizationById = (organizationId, product) => {
     setLoading(true);
     //TODO не отправлять пустые поля: использовать lodash/ забить хуй
