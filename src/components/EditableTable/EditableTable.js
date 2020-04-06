@@ -58,6 +58,7 @@ const EditableTable = ({
   const operationColumn = {
     title: 'operation',
     dataIndex: 'operation',
+    width: '2%',
     render: (_, record) => (
       <EditableOperationCell
         record={record}

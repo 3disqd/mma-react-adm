@@ -46,6 +46,34 @@ export const PointsProvider = props => {
       });
   }, []);
 
+  const updatePoint = useCallback((id, options) => {
+    const { name, address, groups } = options;
+    //TODO почистить от неизмененных значений; а может и не надо
+    const update = {
+      name,
+      address,
+      groups,
+    };
+    console.log(update);
+    setLoading(true);
+    api.points
+      .updatePoint(id, update)
+      .then(res => {
+        // setPointsByOrg('fuck')
+        setPointsByOrg(pointsByOrg => {
+          const newData = [...pointsByOrg[res.data.organizationId]];
+          const index = newData.findIndex(item => res.data._id === item._id);
+          newData.splice(index, 1, res.data);
+          return { ...pointsByOrg, [res.data.organizationId]: newData };
+        });
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <PointsContext.Provider
       value={{
@@ -53,6 +81,7 @@ export const PointsProvider = props => {
         loading,
         loadPointByOrganizationId,
         addPointToOrganization,
+        updatePoint,
       }}
     >
       {props.children}

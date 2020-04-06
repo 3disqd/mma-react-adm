@@ -57,7 +57,6 @@ export const OrganizationsProvider = props => {
   };
 
   const updateOrganization = (id, row) => {
-    console.log(id, row);
     const update = {
       ...(row.name && { name: row.name }),
       ...(row.kek && { kek: row.kek }),

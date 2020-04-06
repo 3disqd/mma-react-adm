@@ -7,10 +7,11 @@ const EditableOperationCell = ({
   onSave = () => {},
   onEdit = () => {},
   onCancel = () => {},
+  onDelete = () => {},
   isEditDisabled,
 }) =>
   editable ? (
-    <span>
+    <>
       <Button
         type="link"
         onClick={() => onSave(record._id)}
@@ -23,15 +24,25 @@ const EditableOperationCell = ({
       <Popconfirm title="Sure to cancel?" onConfirm={onCancel}>
         <Button type="link">Cancel</Button>
       </Popconfirm>
-    </span>
+    </>
   ) : (
-    <Button
-      type="link"
-      disabled={isEditDisabled}
-      onClick={() => onEdit(record)}
-    >
-      Edit
-    </Button>
+    <>
+      <Button
+        type="link"
+        disabled={isEditDisabled}
+        onClick={() => onEdit(record)}
+        style={{
+          marginRight: 8,
+        }}
+      >
+        Edit
+      </Button>
+      <Popconfirm title="Sure to delete?" onConfirm={onDelete}>
+        <Button disabled={isEditDisabled} danger type="link">
+          Delete
+        </Button>
+      </Popconfirm>
+    </>
   );
 
 export default EditableOperationCell;

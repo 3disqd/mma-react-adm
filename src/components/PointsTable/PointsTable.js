@@ -3,15 +3,13 @@ import EditableTable from '../EditableTable/EditableTable';
 import { PointsContext } from '../../contexts/PointsContext';
 import TagsCell from '../TagsCell/TagsCell';
 
-const PointsTable = ({
-  updateItem = () => {},
-  orgId,
-}) => {
+const PointsTable = ({ orgId }) => {
   const {
     loading,
     [orgId]: data,
     loadPointByOrganizationId,
     addPointToOrganization,
+    updatePoint,
   } = useContext(PointsContext);
 
   const reload = () => {
@@ -72,7 +70,7 @@ const PointsTable = ({
       dataSource={data || []}
       loading={loading}
       newItemTemplate={newItemTemplate}
-      updateItem={updateItem}
+      updateItem={updatePoint}
       createNewItem={createPoint}
       reload={reload}
     />

@@ -7,4 +7,5 @@ export default {
   getByOrganizationId: organizationId => AxiosMMMA.get(route + organizationId),
   addPointToOrganization: (organizationId, point = {}) =>
     AxiosMMMA.post(route, { organizationId, ...point }),
+  updatePoint: (id, update = {}) => AxiosMMMA.patch(route + id, { update }),
 };
