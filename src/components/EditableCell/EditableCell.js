@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, InputNumber } from 'antd';
+import InputTags from './InputTags';
 
 const EditableCell = ({
   editing,
@@ -17,6 +18,9 @@ const EditableCell = ({
   const inputNode =
     inputType === 'number' ? (
       <InputNumber placeholder={placeholder} />
+    ) : inputType === 'tags' ? (
+      // <Input placeholder={placeholder} />
+      <InputTags />
     ) : (
       <Input placeholder={placeholder} />
     );
