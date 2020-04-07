@@ -16,6 +16,7 @@ import ProductsPage from './pages/ProductsPage';
 import PointsPage from './pages/PointsPage';
 import { OrganizationsProvider } from './contexts/OrganizationsContext';
 import { PointsProvider } from './contexts/PointsContext';
+import KekPage from './pages/KekPage';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
+            <Route path={'/qwe'}  component={KekPage}/>
             <Route path={'/org/:orgId/products'} component={ProductsPage} />
             <Route path={'/org/:orgId/points'} component={PointsPage} />
             <Route path={'/org'} component={OrganizationPage} />

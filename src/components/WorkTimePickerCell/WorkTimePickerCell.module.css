@@ -1,0 +1,10 @@
+.workTimePickerCell {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+.selectDropDown {
+}
+.selectDropDown .optionShort {
+  /*color: red;*/
+}

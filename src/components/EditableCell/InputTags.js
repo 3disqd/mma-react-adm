@@ -3,6 +3,8 @@ import { Tag, Input, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from '../TagsCell/TagsCell.module.css';
 
+
+//TODO хуйня; зря сделал; заменить Select with Tags
 const InputTags = ({ value = [], id, onChange = () => {} }) => {
   const [inputValue, setInputValue] = useState('');
   const [inputVisible, setInputVisible] = useState(false);
