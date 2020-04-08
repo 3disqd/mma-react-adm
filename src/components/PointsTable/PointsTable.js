@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import EditableTable from '../EditableTable/EditableTable';
 import { PointsContext } from '../../contexts/PointsContext';
 import TagsCell from '../TagsCell/TagsCell';
+import { parseSchedule } from '../../utils/parseSchedule';
+import ParsedScheduleListItem from '../ParsedScheduleListItem/ParsedScheduleListItem';
 
 const PointsTable = ({ orgId }) => {
   const {
@@ -49,6 +51,18 @@ const PointsTable = ({ orgId }) => {
       // required: true,
     },
     {
+      title: 'schedule',
+      dataIndex: 'schedule',
+      // width: '200px',
+      inputType: 'schedule',
+      editable: true,
+      render: schedule =>
+        parseSchedule(schedule || {}).map(i => (
+          <ParsedScheduleListItem item={i} key={i.name} />
+        )),
+      // required: true,
+    },
+    {
       title: 'groups',
       dataIndex: 'groups',
       inputType: 'tags',
@@ -61,7 +75,12 @@ const PointsTable = ({ orgId }) => {
     _id: 'new',
     name: '123',
     address: '123',
-    // groups: ["1","2"],
+    schedule: undefined,
+    groups: [],
+  };
+
+  const forceClearObject = {
+    schedule: undefined,
   };
 
   return (
@@ -73,6 +92,7 @@ const PointsTable = ({ orgId }) => {
       updateItem={updatePoint}
       createNewItem={createPoint}
       reload={reload}
+      forseClearObject={forceClearObject}
     />
   );
 };

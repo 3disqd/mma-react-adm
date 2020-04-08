@@ -13,6 +13,7 @@ const EditableTable = ({
   createNewItem = () => {},
   updateItem = () => {},
   reload,
+  forceClearObject = {},
   // ...props
 }) => {
   const [form] = Form.useForm();
@@ -31,6 +32,7 @@ const EditableTable = ({
     if (editingId === 'new') {
       setNewItems([]);
     }
+    form.setFieldsValue(forceClearObject);
     setEditingId('');
   };
 
@@ -39,12 +41,12 @@ const EditableTable = ({
       const row = await form.validateFields();
       if (id === 'new') {
         createNewItem(row);
-        setNewItems([]);
-        setEditingId('');
       } else {
         updateItem(id, row);
-        setEditingId('');
       }
+      cancel();
+      // form.setFieldsValue({ schedule: undefined });
+      // setEditingId('');
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }

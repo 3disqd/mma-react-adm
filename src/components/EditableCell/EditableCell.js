@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, InputNumber } from 'antd';
 import InputTags from './InputTags';
+import InputSchedule from './InputSchedule';
 
 const EditableCell = ({
   editing,
@@ -15,15 +16,23 @@ const EditableCell = ({
   rules = [],
   ...restProps
 }) => {
-  const inputNode =
-    inputType === 'number' ? (
-      <InputNumber placeholder={placeholder} />
-    ) : inputType === 'tags' ? (
-      // <Input placeholder={placeholder} />
-      <InputTags />
-    ) : (
-      <Input placeholder={placeholder} />
-    );
+  let inputNode;
+  switch (inputType) {
+    case 'number':
+      inputNode = <InputNumber placeholder={placeholder} />;
+      break;
+    case 'tags':
+      inputNode = <InputTags />;
+      break;
+    case 'schedule':
+      inputNode = <InputSchedule />;
+      break;
+    default:
+      inputNode = <Input placeholder={placeholder} />;
+
+      break;
+  }
+
   return (
     <td {...restProps}>
       {editing ? (

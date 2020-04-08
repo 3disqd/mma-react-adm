@@ -47,12 +47,13 @@ export const PointsProvider = props => {
   }, []);
 
   const updatePoint = useCallback((id, options) => {
-    const { name, address, groups } = options;
+    const { name, address, groups, schedule } = options;
     //TODO почистить от неизмененных значений; а может и не надо
     const update = {
       name,
       address,
       groups,
+      schedule,
     };
     console.log(update);
     setLoading(true);

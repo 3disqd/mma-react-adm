@@ -1,8 +1,7 @@
 import React from 'react';
-import WorkTimePickerCell from '../components/WorkTimePickerCell/WorkTimePickerCell';
 
 const KekPage = () => {
-  return <WorkTimePickerCell />;
+  return <div>qwe</div>;
 };
 
 export default KekPage;
