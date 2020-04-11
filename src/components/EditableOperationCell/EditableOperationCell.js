@@ -14,7 +14,7 @@ const EditableOperationCell = ({
     <>
       <Button
         type="link"
-        onClick={() => onSave(record._id)}
+        onClick={() => onSave(record.id)}
         style={{
           marginRight: 8,
         }}

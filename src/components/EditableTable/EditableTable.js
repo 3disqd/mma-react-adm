@@ -7,7 +7,7 @@ const EditableTable = ({
   columns = [],
   dataSource,
   loading,
-  newItemTemplate = { _id: 'new' },
+  newItemTemplate = { id: 'new' },
   useDefaultOperationColumn = true,
   insertAddButton = true,
   createNewItem = () => {},
@@ -26,7 +26,7 @@ const EditableTable = ({
     setEditingId('new');
   };
 
-  const isEditing = record => record._id === editingId;
+  const isEditing = record => record.id === editingId;
 
   const cancel = () => {
     if (editingId === 'new') {
@@ -54,7 +54,7 @@ const EditableTable = ({
 
   const edit = record => {
     form.setFieldsValue({ ...record });
-    setEditingId(record._id);
+    setEditingId(record.id);
   };
 
   const operationColumn = {
@@ -86,7 +86,7 @@ const EditableTable = ({
         inputType: col.inputType,
         dataIndex: col.dataIndex,
         title: col.title,
-        editing: editingId === record._id,
+        editing: editingId === record.id,
         required: col.required,
         placeholder: col.placeholder,
         rules: col.rules,
@@ -138,7 +138,7 @@ const EditableTable = ({
           dataSource={[...newItems, ...dataSource]}
           columns={preparedColumns}
           loading={loading}
-          rowKey={'_id'}
+          rowKey={'id'}
         />
       </Form>
     </>

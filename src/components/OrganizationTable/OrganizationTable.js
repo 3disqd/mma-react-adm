@@ -19,8 +19,8 @@ const OrganizationTable = () => {
 
   const columns = [
     {
-      title: '_id',
-      dataIndex: '_id',
+      title: 'id',
+      dataIndex: 'id',
       // width: '25%',
       editable: false,
       required: false,
@@ -35,7 +35,7 @@ const OrganizationTable = () => {
   ];
 
   const newItemTemplate = {
-    _id: 'new',
+    id: 'new',
     name: 'kek',
     age: '',
     address: '',

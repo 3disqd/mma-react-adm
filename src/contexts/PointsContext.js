@@ -63,7 +63,7 @@ export const PointsProvider = props => {
         // setPointsByOrg('fuck')
         setPointsByOrg(pointsByOrg => {
           const newData = [...pointsByOrg[res.data.organizationId]];
-          const index = newData.findIndex(item => res.data._id === item._id);
+          const index = newData.findIndex(item => res.data.id === item.id);
           newData.splice(index, 1, res.data);
           return { ...pointsByOrg, [res.data.organizationId]: newData };
         });

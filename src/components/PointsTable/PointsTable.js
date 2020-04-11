@@ -30,7 +30,7 @@ const PointsTable = ({ orgId }) => {
   const columns = [
     {
       title: 'id',
-      dataIndex: '_id',
+      dataIndex: 'id',
       width: '15%',
       editable: false,
       required: false,
@@ -67,7 +67,7 @@ const PointsTable = ({ orgId }) => {
   ];
 
   const newItemTemplate = {
-    _id: 'new',
+    id: 'new',
     name: '123',
     address: '123',
     schedule: undefined,

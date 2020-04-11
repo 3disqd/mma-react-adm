@@ -8,10 +8,11 @@ const ProductsTable = ({ orgId }) => {
     organizations,
     loading,
     addProductToOrganizationById,
+    updateProduct,
   } = useContext(OrganizationsContext);
 
   const data = useMemo(
-    () => find(organizations, { _id: orgId })?.products.reverse() || [],
+    () => find(organizations, { id: orgId })?.products.reverse() || [],
     [organizations, orgId]
   );
 
@@ -19,12 +20,16 @@ const ProductsTable = ({ orgId }) => {
     addProductToOrganizationById(orgId, product);
   };
 
+  const updateItem = (productId, product) => {
+    updateProduct(orgId, productId, product);
+  };
+
   //TODO сделать обновление продукта и обновление списка
 
   const columns = [
     {
-      title: '_id',
-      dataIndex: '_id',
+      title: 'id',
+      dataIndex: 'id',
       // width: '25%',
       editable: false,
       required: false,
@@ -57,7 +62,7 @@ const ProductsTable = ({ orgId }) => {
   ];
 
   const newItemTemplate = {
-    _id: 'new',
+    id: 'new',
     name: '',
     price: '',
     description: '',
@@ -70,7 +75,7 @@ const ProductsTable = ({ orgId }) => {
       loading={loading}
       newItemTemplate={newItemTemplate}
       createNewItem={createNewItem}
-      updateItem={() => {}}
+      updateItem={updateItem}
       reload={() => {}}
     />
   );

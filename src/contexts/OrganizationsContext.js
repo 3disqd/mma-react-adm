@@ -9,6 +9,7 @@ export const OrganizationsContext = React.createContext({
   addOrganization: () => {},
   updateOrganization: () => {},
   addProductToOrganizationById: () => {},
+  updateProduct: () => {},
 });
 
 export const OrganizationsProvider = props => {
@@ -66,7 +67,7 @@ export const OrganizationsProvider = props => {
       .update(id, update)
       .then(res => {
         const newData = [...organizations];
-        const index = newData.findIndex(item => res.data._id === item._id);
+        const index = newData.findIndex(item => res.data.id === item.id);
         newData.splice(index, 1, res.data);
         setOrganizations(newData);
         setLoading(false);
@@ -78,6 +79,8 @@ export const OrganizationsProvider = props => {
   };
 
   //TODO завернуть фнкции в колбеки
+
+  //TODO вынести продукты в свой контекст? ПОДУМАТЬ!
 
   const addProductToOrganizationById = (organizationId, product) => {
     setLoading(true);
@@ -91,10 +94,13 @@ export const OrganizationsProvider = props => {
     api.products
       .create(organizationId, newProduct)
       .then(res => {
-        const newData = [...organizations];
-        let updatedOrganization = find(newData, { _id: organizationId });
+        const newOrganizationsData = [...organizations];
+        let updatedOrganization = find(newOrganizationsData, {
+          id: organizationId,
+        });
         updatedOrganization.products = res.data;
-        setOrganizations(newData);
+        console.log(newOrganizationsData);
+        setOrganizations(newOrganizationsData);
         setLoading(false);
       })
       .catch(err => {
@@ -102,6 +108,27 @@ export const OrganizationsProvider = props => {
         setLoading(false);
       });
   };
+
+  const updateProduct = useCallback((organizationId, productId, product) => {
+    setLoading(true);
+
+    api.products
+      .update(organizationId, productId, product)
+      .then(res => {
+        setOrganizations(organizations =>
+          organizations.map(organization =>
+            organization.id === organizationId
+              ? { ...organization, products: res.data }
+              : organization
+          )
+        );
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log(e);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     getOrganizations();
@@ -116,6 +143,7 @@ export const OrganizationsProvider = props => {
         addOrganization,
         updateOrganization,
         addProductToOrganizationById,
+        updateProduct,
       }}
     >
       {props.children}
