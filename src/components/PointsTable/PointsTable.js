@@ -2,8 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import EditableTable from '../EditableTable/EditableTable';
 import { PointsContext } from '../../contexts/PointsContext';
 import TagsCell from '../TagsCell/TagsCell';
-import { parseSchedule } from '../../utils/parseSchedule';
-import ParsedScheduleListItem from '../ParsedScheduleListItem/ParsedScheduleListItem';
+import ParsedSchedule from '../ParsedSchedule/ParsedSchedule';
 
 const PointsTable = ({ orgId }) => {
   const {
@@ -56,11 +55,7 @@ const PointsTable = ({ orgId }) => {
       // width: '200px',
       inputType: 'schedule',
       editable: true,
-      render: schedule =>
-        parseSchedule(schedule || {}).map(i => (
-          <ParsedScheduleListItem item={i} key={i.name} />
-        )),
-      // required: true,
+      render: schedule => <ParsedSchedule schedule={schedule} />,
     },
     {
       title: 'groups',

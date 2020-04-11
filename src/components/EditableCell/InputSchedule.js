@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { parseSchedule } from '../../utils/parseSchedule';
-import { Button, Checkbox, Select, TimePicker } from 'antd';
-import ParsedScheduleListItem from '../ParsedScheduleListItem/ParsedScheduleListItem';
+import { Button, Checkbox, Input, Select, TimePicker } from 'antd';
+import ParsedSchedule from '../ParsedSchedule/ParsedSchedule';
 const { Option } = Select;
-
 
 //TODO запилить стили
 const styles = {};
@@ -29,13 +27,26 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [allDay, setAllDay] = useState(false);
-  const [closed, setClosed] = useState(false);
+  const [dayOff, setDayOff] = useState(false);
+  const [comment, setComment] = useState('');
 
   const setSchedule = () => {
     let res = {};
-    for (let i = 0; i < selectedDays.length; i++) {
-      res[selectedDays[i]] = closed ? undefined : { from: from, to: to };
+    if (allDay) {
+      for (let i = 1; i < 8; i++) {
+        res[i] = { from: '00:00', to: '23:59' };
+      }
+      res['is_24x7'] = true;
+    } else {
+      for (let i = 0; i < selectedDays.length; i++) {
+        res[selectedDays[i]] = dayOff ? undefined : { from: from, to: to };
+      }
+      res['is_24x7'] = undefined;
     }
+
+    res.comment = comment || undefined;
+
+    console.log(res);
     onChange({
       target: { value: { ...value, ...res }, id },
     });
@@ -47,6 +58,7 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
         mode="multiple"
         style={{ width: '100%' }}
         placeholder="Please select days"
+        disabled={allDay}
         // defaultValue={['a10', 'c12']}
         onChange={value => {
           selectDays(value);
@@ -62,7 +74,7 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
         Open:{' '}
         <TimePicker
           format={'HH:mm'}
-          disabled={allDay || closed}
+          disabled={allDay || dayOff}
           onChange={(momentValue, stringValue) => {
             setFrom(stringValue);
           }}
@@ -74,7 +86,7 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
         Close:{' '}
         <TimePicker
           format={'HH:mm'}
-          disabled={allDay || closed}
+          disabled={allDay || dayOff}
           onChange={(momentValue, stringValue) => {
             setTo(stringValue);
           }}
@@ -84,16 +96,16 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
       </div>
       <br />
       <Checkbox
-        checked={closed}
+        checked={dayOff}
         onChange={e => {
-          setClosed(e.target.checked);
+          setDayOff(e.target.checked);
         }}
       >
         closed
       </Checkbox>
       <br />
       <Checkbox
-        disabled={closed}
+        disabled={dayOff}
         checked={allDay}
         onChange={e => {
           setAllDay(e.target.checked);
@@ -101,17 +113,26 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
       >
         Круглосуточно
       </Checkbox>
+      <br />
+      <Input
+        size="small"
+        placeholder="small size"
+        onChange={e => {
+          setComment(e.target.value);
+        }}
+      />
       <Button
-        disabled={!(selectedDays.length && ((from && to) || allDay || closed))}
+        disabled={!(selectedDays.length && ((from && to) || dayOff)) && !allDay}
         onClick={setSchedule}
         type="primary"
       >
-        Set
+        Применить
       </Button>
       {/*{JSON.stringify(value)}*/}
-      {parseSchedule(value).map(i => (
-        <ParsedScheduleListItem item={i} key={i.name} />
-      ))}
+      <ParsedSchedule schedule={value} />
+      {/*{parsedSchedule.map(i => (*/}
+      {/*  <ParsedScheduleListItem item={i} key={i.firstDayNum + i.lastDayNum} />*/}
+      {/*))}*/}
       <br />
     </div>
   );

@@ -1,4 +1,12 @@
 export const parseSchedule = schedule => {
+
+  if (schedule.is_24x7){
+    return [{
+      value: 'Круглосуточно',
+    }]
+  }
+
+
   const checkNext = (obj, itemNum, res) => {
     if (itemNum === 7) {
       return res;
@@ -25,36 +33,10 @@ export const parseSchedule = schedule => {
     res.push({
       firstDayNum: interval[0],
       lastDayNum: interval[interval.length - 1],
-      name:
-        intToWeekDay(interval[0]) +
-        (interval.length > 1
-          ? ` - ${intToWeekDay(interval[interval.length - 1])}`
-          : ''),
-      value: schedule[interval[0]],
+      value: schedule[interval[0]] || 'Выходной',
     });
 
     checked = [...checked, ...interval];
   }
   return res;
-};
-
-export const intToWeekDay = int => {
-  switch (int) {
-    case 1:
-      return 'пн';
-    case 2:
-      return 'вт';
-    case 3:
-      return 'ср';
-    case 4:
-      return 'чт';
-    case 5:
-      return 'пт';
-    case 6:
-      return 'сб';
-    case 7:
-      return 'вс';
-    default:
-      return int;
-  }
 };

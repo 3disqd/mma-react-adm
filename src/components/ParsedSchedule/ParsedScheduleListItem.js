@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './ParsedScheduleListItem.module.css';
 
+const styles = {};
 const ParsedScheduleListItem = ({ item = {} }) => (
   <p className={styles.parsedScheduleListItem}>
     <span>
@@ -11,9 +11,9 @@ const ParsedScheduleListItem = ({ item = {} }) => (
     </span>
     :
     <span>
-      {item.value && item.value.from && item.value.to
+      {item.value.from && item.value.to
         ? `${item.value.from} - ${item.value.to}`
-        : 'weekend'}
+        : item.value}
     </span>
   </p>
 );
