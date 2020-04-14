@@ -7,54 +7,82 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
+import { Layout } from 'antd';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import SiderMenu from './components/SiderMenu/SiderMenu';
+import { OrganizationsProvider } from './contexts/OrganizationsContext';
+import { PointsProvider } from './contexts/PointsContext';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import OrganizationPage from './pages/OrganizationPage';
-// import ExampleTablePage from './pages/ExampleTablePage';
 import ProductsPage from './pages/ProductsPage';
 import PointsPage from './pages/PointsPage';
-import { OrganizationsProvider } from './contexts/OrganizationsContext';
-import { PointsProvider } from './contexts/PointsContext';
 import KekPage from './pages/KekPage';
+import AboutPage from './pages/AboutPage';
+import AboutPageHeader from './pages/AboutPageHeader';
+import { MainSiderProvider } from './contexts/MainSiderContext';
 
 const App = () => {
   return (
     <OrganizationsProvider>
       <PointsProvider>
-        <BrowserRouter>
-          <Switch>
-            {/*<Route c/>*/}
-            <Route path={'/login'} component={null} />
-            <Route path={'/'} component={Header} />
-          </Switch>
-          {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path={'/qwe'}  component={KekPage}/>
-            <Route path={'/org/:orgId/products'} component={ProductsPage} />
-            <Route path={'/org/:orgId/points'} component={PointsPage} />
-            <Route path={'/org'} component={OrganizationPage} />
-
-            {/*<Route path={'/exampleTable'} component={ExampleTablePage} />*/}
-            <Route path="/about">
-              <div>about</div>
-            </Route>
-            <PrivateRoute path={'/users'}>
-              <div>users</div>
-            </PrivateRoute>
-            {/*<Route path="/users" >*/}
-            {/*</Route>*/}
-            <Route path="/fakelogin">
-              <FakeLoginPage />
-            </Route>
-            <Route path={'/login'} component={LoginPage} />
-            <Route path="/">
-              <div>home</div>
-              <AuthButton />
-            </Route>
-          </Switch>
-        </BrowserRouter>
+        <MainSiderProvider>
+          <BrowserRouter>
+            <Layout
+              style={{
+                minHeight: '100vh',
+              }}
+            >
+              {/*Menu*/}
+              <Switch>
+                <Route path={'/login'} component={null} />
+                <Route path={'/'} component={SiderMenu} />
+              </Switch>
+              <Layout className="site-layout">
+                {/*Header*/}
+                <Switch>
+                  <Route path={'/login'} component={null} />
+                  <Route path={'/'} component={Header} />
+                </Switch>
+                {/*PageHeader*/}
+                <Switch>
+                  <Route path={'/about'} component={AboutPageHeader} />
+                </Switch>
+                {/*Content*/}
+                <Route path={'/about'} component={AboutPage} />
+                <Switch>
+                  <Route path={'/org/:orgId/points'} component={PointsPage} />
+                  <Route
+                    path={'/org/:orgId/products'}
+                    component={ProductsPage}
+                  />
+                  <Route path={'/org'} component={OrganizationPage} />
+                  {/*======================*/}
+                  {/*TODO приватный роут не в свиче все ломает*/}
+                  <PrivateRoute path={'/users'}>
+                    <div>users</div>
+                  </PrivateRoute>
+                  <Route path={'/qwe'} component={KekPage} />
+                  <Route path={'/login'} component={LoginPage} />
+                  <Route path="/fakelogin">
+                    <FakeLoginPage />
+                  </Route>
+                  <Route path="/" exact>
+                    <div>home</div>
+                    <AuthButton />
+                  </Route>
+                  {/*======================*/}
+                </Switch>
+                {/*Footer*/}
+                <Switch>
+                  {/*<Route path={'/login'} component={null} />*/}
+                  <Route path={'/'} component={Footer} />
+                </Switch>
+              </Layout>
+            </Layout>
+          </BrowserRouter>
+        </MainSiderProvider>
       </PointsProvider>
     </OrganizationsProvider>
   );

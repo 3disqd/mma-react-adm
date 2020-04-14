@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import api from '../api/v0';
 import { find } from 'lodash';
 
@@ -18,6 +18,7 @@ export const OrganizationsProvider = props => {
   const [organizations, setOrganizations] = useState([]);
 
   const getOrganizations = useCallback(() => {
+    setLoading(true);
     api.organizations
       .getAll()
       .then(res => {
@@ -134,9 +135,18 @@ export const OrganizationsProvider = props => {
     getOrganizations();
   }, [getOrganizations]);
 
+  const organizationsById = useMemo(() => {
+    let res = {};
+    for (let i = 0; i < organizations.length; i++) {
+      res[organizations[i].id] = organizations[i];
+    }
+    return res;
+  }, [organizations]);
+
   return (
     <OrganizationsContext.Provider
       value={{
+        ...organizationsById,
         organizations,
         loading,
         getOrganizations,

@@ -19,7 +19,6 @@ const EditableCell = ({
   let inputNode;
   switch (inputType) {
     case 'number':
-      //TODO принимает строку и не проходит валидацию при обновлении обьекта
       inputNode = <InputNumber placeholder={placeholder} />;
       break;
     case 'tags':

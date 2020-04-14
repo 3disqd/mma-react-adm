@@ -6,6 +6,7 @@ import points from './points';
 
 export const AxiosMMMA = axios.create({
   baseURL: 'http://localhost:3000/api/v0/',
+  // baseURL: 'http://192.168.31.208:3000/api/v0/',
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${localStorage.tkn}`,

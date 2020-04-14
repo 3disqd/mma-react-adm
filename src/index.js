@@ -1,17 +1,13 @@
-import 'core-js/features/map';
-import 'core-js/features/set';
+// import 'core-js/features/map';
+// import 'core-js/features/set';
+// TODO разобраться; впихнуто по рекомендации вк мини апп бойлерплейта
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  // <NavContextProvider navSheme={a}>
-  <App />,
-  // </NavContextProvider>
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

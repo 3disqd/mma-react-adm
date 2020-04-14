@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Form, Table } from 'antd';
+import styles from './EditableTable.module.css';
+import { Form, Table } from 'antd';
 import EditableCell from '../EditableCell/EditableCell';
 import EditableOperationCell from '../EditableOperationCell/EditableOperationCell';
+import TableTools from './TableTools/TableTools';
 
 const EditableTable = ({
   columns = [],
@@ -14,11 +16,14 @@ const EditableTable = ({
   updateItem = () => {},
   reload,
   forceClearObject = {},
+  scroll,
+  title,
   // ...props
 }) => {
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState('');
   const [newItems, setNewItems] = useState([]);
+  const [tableSize, setTableSize] = useState('asd');
 
   const handleAdd = () => {
     setNewItems([newItemTemplate]);
@@ -45,8 +50,6 @@ const EditableTable = ({
         updateItem(id, row);
       }
       cancel();
-      // form.setFieldsValue({ schedule: undefined });
-      // setEditingId('');
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
@@ -60,7 +63,8 @@ const EditableTable = ({
   const operationColumn = {
     title: 'operation',
     dataIndex: 'operation',
-    width: '2%',
+    width: 100,
+    fixed: 'right',
     render: (_, record) => (
       <EditableOperationCell
         record={record}
@@ -73,6 +77,7 @@ const EditableTable = ({
     ),
   };
 
+  // TODO вот эту хуйню вынести в утилиту; не нужна тут
   let preparedColumns = columns.map(col => {
     if (!col.editable) {
       return col;
@@ -100,32 +105,14 @@ const EditableTable = ({
 
   return (
     <>
-      {insertAddButton && (
-        <Button
-          onClick={handleAdd}
-          type="primary"
-          disabled={editingId !== ''}
-          style={{
-            marginBottom: 16,
-          }}
-        >
-
-          Add a row
-        </Button>
-      )}
-
-      {!!reload && (
-        <Button
-          onClick={reload}
-          type="primary"
-          disabled={editingId !== ''}
-          style={{
-            marginBottom: 16,
-          }}
-        >
-          Reload
-        </Button>
-      )}
+      <TableTools
+        title={title}
+        handleAdd={insertAddButton && handleAdd}
+        addButtonDisabled={editingId !== ''}
+        reload={reload}
+        reloadButtonDisabled={editingId !== ''}
+        setSize={setTableSize}
+      />
       <Form form={form} component={false}>
         <Table
           components={{
@@ -133,12 +120,22 @@ const EditableTable = ({
               cell: EditableCell,
             },
           }}
+          className={styles.table}
           rowClassName={() => 'editable-row'}
-          bordered
+          // bordered
           dataSource={[...newItems, ...dataSource]}
           columns={preparedColumns}
           loading={loading}
           rowKey={'id'}
+          //TODO конфиг пагинации собирать где-нибудь
+          // pagination={{
+          //   defaultPageSize: 10,
+          //   showSizeChanger: true,
+          //   pageSizeOptions: ['10', '20', '30'],
+          // }}
+          pagination={false}
+          size={tableSize}
+          scroll={scroll}
         />
       </Form>
     </>

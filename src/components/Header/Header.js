@@ -1,78 +1,103 @@
 import React, { useContext } from 'react';
-// import styles from './Header.module.css';
-import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
-import { OrganizationsContext } from '../../contexts/OrganizationsContext';
+import { Avatar, Badge, Dropdown, Layout, Menu } from 'antd';
+import styles from './Header.module.css';
+import cn from 'classnames';
+import { MainSiderContext } from '../../contexts/MainSiderContext';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  GlobalOutlined,
+  BellOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 
 const Header = () => {
-  const { organizations } = useContext(OrganizationsContext);
+  const { collapsed, toggle } = useContext(MainSiderContext);
 
   return (
-    <Menu mode="horizontal">
-      <Menu.Item>
-        <Link to="/">Home</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/org">Organization</Link>
-      </Menu.Item>
-      <Menu.SubMenu
-        title={
-          <span className="submenu-title-wrapper">
-            {/*<SettingOutlined />*/}
-            Products
-          </span>
-        }
+    <>
+      <Layout.Header />
+      <Layout.Header
+        className={cn({ [styles.headerWide]: collapsed }, styles.header)}
       >
-        {/*<Menu.ItemGroup title="Item 1">*/}
-        {organizations.map(i => (
-          <Menu.Item key={i.id + 'products'}>
-            <Link to={`/org/${i.id}/products`}>{i.name}</Link>
-          </Menu.Item>
-        ))}
-        {/*<Menu.Item key="setting:1">*/}
-        {/*  <Link to="/org/5e7b1ae8e2ddccc0c09386bc/products">Option 1</Link>*/}
-        {/*</Menu.Item>{' '}*/}
-        {/*<Menu.Item key="setting:2">*/}
-        {/*  <Link to="/org/5e7b1692a4664bc05834effc/products">Option 2</Link>*/}
-        {/*</Menu.Item>*/}
-        {/*</Menu.ItemGroup>*/}
-        {/*<Menu.ItemGroup title="Item 2">*/}
-        {/*  <Menu.Item key="setting:3">Option 3</Menu.Item>*/}
-        {/*  <Menu.Item key="setting:4">Option 4</Menu.Item>*/}
-        {/*</Menu.ItemGroup>*/}
-      </Menu.SubMenu>
-      <Menu.SubMenu
-        title={
-          <span className="submenu-title-wrapper">
-            {/*<SettingOutlined />*/}
-            Points
-          </span>
-        }
-      >
-        {/*<Menu.ItemGroup title="Item 1">*/}
-        {organizations.map(i => (
-          <Menu.Item key={i.id + 'points'}>
-            <Link to={`/org/${i.id}/points`}>{i.name}</Link>
-          </Menu.Item>
-        ))}
-      </Menu.SubMenu>
-      <Menu.Item>
-        <Link to="/points">point</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/exampleTable">exampleTable</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/about">About</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/users">Users</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/login">Login</Link>
-      </Menu.Item>
-    </Menu>
+        <div onClick={toggle} className={styles.siderToggle}>
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </div>
+
+        <div style={{ flex: '1 1 0' }} />
+
+        <Dropdown overlay={menu} placement="bottomRight" trigger={['click']}>
+          <div className={styles.button}>
+            <Badge count={10} className={styles.badge}>
+              <BellOutlined />
+            </Badge>
+          </div>
+        </Dropdown>
+        <Dropdown
+          overlay={profileMenu}
+          placement="bottomRight"
+          trigger={['click']}
+        >
+          <div className={styles.button}>
+            <Avatar
+              size="small"
+              icon={<UserOutlined />}
+              style={{ marginRight: '8px' }}
+            />
+            User Name
+          </div>
+        </Dropdown>
+        <Dropdown overlay={menu} placement="bottomRight">
+          <div className={styles.button}>
+            <GlobalOutlined />
+          </div>
+        </Dropdown>
+      </Layout.Header>
+    </>
   );
 };
 
 export default Header;
+
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <span role="img" aria-label="Russian">
+        🇷🇺
+      </span>{' '}
+      Russian
+    </Menu.Item>
+    <Menu.Item>
+      <span role="img" aria-label="English">
+        🇺🇸
+      </span>{' '}
+      English
+    </Menu.Item>
+    <Menu.Item>
+      <span role="img" aria-label="Japan">
+        🇯🇵
+      </span>{' '}
+      Japan
+    </Menu.Item>
+    <Menu.Divider />
+  </Menu>
+);
+
+const profileMenu = (
+  <Menu>
+    <Menu.Item>
+      <UserOutlined /> Profile
+    </Menu.Item>
+    <Menu.Item>
+      <SettingOutlined />
+      Setting
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item>
+      <LogoutOutlined />
+      logout
+    </Menu.Item>
+  </Menu>
+);

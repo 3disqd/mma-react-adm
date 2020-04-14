@@ -1,19 +1,18 @@
 import React, { useContext, useMemo } from 'react';
 import EditableTable from '../EditableTable/EditableTable';
 import { OrganizationsContext } from '../../contexts/OrganizationsContext';
-import find from 'lodash/find';
 
 const ProductsTable = ({ orgId }) => {
   const {
-    organizations,
+    [orgId]: organization,
     loading,
     addProductToOrganizationById,
     updateProduct,
   } = useContext(OrganizationsContext);
 
   const data = useMemo(
-    () => find(organizations, { id: orgId })?.products.reverse() || [],
-    [organizations, orgId]
+    () => (organization ? [...organization.products].reverse() : []),
+    [organization]
   );
 
   const createNewItem = product => {
@@ -30,7 +29,7 @@ const ProductsTable = ({ orgId }) => {
     {
       title: 'id',
       dataIndex: 'id',
-      // width: '25%',
+      width: 1,
       editable: false,
       required: false,
     },

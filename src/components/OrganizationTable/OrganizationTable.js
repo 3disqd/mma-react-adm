@@ -43,6 +43,7 @@ const OrganizationTable = () => {
 
   return (
     <EditableTable
+      title={'Организации'}
       columns={columns}
       dataSource={organizations}
       loading={loading}

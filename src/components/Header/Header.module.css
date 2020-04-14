@@ -1,0 +1,34 @@
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100vw - 200px);
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  z-index: 20;
+  transition: width 0.2s;
+}
+.headerWide {
+  width: calc(100vw - 80px);
+}
+.siderToggle {
+  padding: 0 22px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #8e8e8e;
+}
+.button {
+  padding: 0 12px;
+  cursor: pointer;
+  /*font-size: 16px;*/
+}
+.button:hover {
+  background-color: #fafafa;
+}
+.badge > span {
+  padding: 4px;
+  vertical-align: middle;
+}

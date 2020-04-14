@@ -1,0 +1,17 @@
+.tableTools {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  font-size: 18px;
+}
+.miniButton {
+  border: none;
+}
+.miniButton + .miniButton {
+  margin-left: 8px;
+}
