@@ -3,45 +3,91 @@ import users from './users';
 import organizations from './organizations';
 import products from './products';
 import points from './points';
+import localStorageService from '../../LocalStorageService';
+import api from '../v0';
 
 export const AxiosMMMA = axios.create({
-  baseURL: 'http://localhost:3000/api/v0/',
-  // baseURL: 'http://192.168.31.208:3000/api/v0/',
+  // baseURL: 'http://localhost:3000/api/v0/',
+  baseURL: 'http://192.168.31.208:3000/api/v0/',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.tkn}`,
   },
 });
 
-AxiosMMMA.interceptors.request.use(conf => {
-  // console.log(conf);
-  // console.log(localStorage.token);
-  return conf;
+AxiosMMMA.interceptors.request.use(async config => {
+  const token = localStorageService.getAccessToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
+
+let isRefreshing = false;
+
+let subscribers = [];
 
 AxiosMMMA.interceptors.response.use(
-  function(response) {
+  res => {
+    //TODO возможно сломается
+    if (
+      res.config.url === '/users/login' ||
+      res.config.url === '/users/refresh'
+    ) {
+      const {
+        data: { jwt, rt },
+      } = res;
+      console.log(jwt, rt);
+      if (jwt && rt) {
+        localStorageService.setToken(jwt, rt);
+      } else {
+        // reject?
+      }
+    }
     // Do something with response data
-    return response;
+    return res;
   },
-  function(err) {
-    // Do something with response error
+  err => {
+    const {
+      config,
+      response: { status },
+    } = err;
+    const originalRequest = config;
 
+    if (status === 401) {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        api.users.refresh().then(res => {
+          isRefreshing = false;
+          onRefreshed(res.data.jwt);
+          subscribers = [];
+        });
+      }
+      return new Promise(resolve => {
+        subscribeTokenRefresh(token => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          resolve(axios(originalRequest));
+        });
+      });
+    }
     if (!err.response) {
       return Promise.reject(err);
     }
 
-    // if (err.response.status === 401) {
-    //   window.location.href = '/auth';
-    //   return Promise.reject(err);
-    // }
     return Promise.reject(err);
   }
 );
+
+const subscribeTokenRefresh = cb => {
+  subscribers.push(cb);
+};
+
+const onRefreshed = token => {
+  subscribers.map(cb => cb(token));
+};
 
 export default {
   users,
   organizations,
   products,
-  points
+  points,
 };

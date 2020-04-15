@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { fakeAuth } from '../../App';
+import localStorageService from '../../LocalStorageService';
 
 const PrivateRoute = ({ children, path, component, render, ...rest }) => (
   <Route
@@ -9,12 +9,12 @@ const PrivateRoute = ({ children, path, component, render, ...rest }) => (
     {...render}
     {...rest}
     render={({ location }) =>
-      fakeAuth.isAuthenticated ? (
+      localStorageService.getAccessToken() ? (
         children
       ) : (
         <Redirect
           to={{
-            pathname: '/fakelogin',
+            pathname: '/login',
             state: { from: location },
           }}
         />

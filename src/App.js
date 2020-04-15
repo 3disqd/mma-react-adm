@@ -1,12 +1,6 @@
 import React from 'react';
 import './App.css';
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  useHistory,
-  useLocation,
-} from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
 import { Layout } from 'antd';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -22,6 +16,8 @@ import KekPage from './pages/KekPage';
 import AboutPage from './pages/AboutPage';
 import AboutPageHeader from './pages/AboutPageHeader';
 import { MainSiderProvider } from './contexts/MainSiderContext';
+
+import localStorageService from './LocalStorageService';
 
 const App = () => {
   return (
@@ -65,9 +61,6 @@ const App = () => {
                   </PrivateRoute>
                   <Route path={'/qwe'} component={KekPage} />
                   <Route path={'/login'} component={LoginPage} />
-                  <Route path="/fakelogin">
-                    <FakeLoginPage />
-                  </Route>
                   <Route path="/" exact>
                     <div>home</div>
                     <AuthButton />
@@ -91,12 +84,13 @@ const App = () => {
 const AuthButton = () => {
   let history = useHistory();
 
-  return fakeAuth.isAuthenticated ? (
+  return localStorageService.getAccessToken() ? (
     <p>
       Welcome!{' '}
       <button
         onClick={() => {
-          fakeAuth.signout(() => history.push('/'));
+          localStorageService.clearToken();
+          history.push('/');
         }}
       >
         Sign out
@@ -106,36 +100,5 @@ const AuthButton = () => {
     <p>You are not logged in.</p>
   );
 };
-
-export const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    fakeAuth.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    fakeAuth.isAuthenticated = false;
-    setTimeout(cb, 100);
-  },
-};
-
-function FakeLoginPage() {
-  let history = useHistory();
-  let location = useLocation();
-
-  let { from } = location.state || { from: { pathname: '/' } };
-  let login = () => {
-    fakeAuth.authenticate(() => {
-      history.replace(from);
-    });
-  };
-
-  return (
-    <div>
-      <p>You must log in to view the page at {from.pathname}</p>
-      <button onClick={login}>Log in</button>
-    </div>
-  );
-}
 
 export default App;
