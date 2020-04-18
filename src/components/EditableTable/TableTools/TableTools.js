@@ -5,6 +5,7 @@ import {
   SettingOutlined,
   ReloadOutlined,
   ColumnHeightOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 
 const TableTools = ({
@@ -39,11 +40,12 @@ const TableTools = ({
       <div className={styles.buttons}>
         {handleAdd && (
           <Button
+            icon={<PlusOutlined />}
             onClick={handleAdd}
             type="primary"
             disabled={addButtonDisabled}
           >
-            + Add a row
+            Add a row
           </Button>
         )}
         <Divider type="vertical" />
@@ -68,19 +70,6 @@ const TableTools = ({
         <Tooltip title="settings">
           <Button className={styles.miniButton} icon={<SettingOutlined />} />
         </Tooltip>
-
-        {/*{!!reload && (*/}
-        {/*  <Button*/}
-        {/*    onClick={reload}*/}
-        {/*    type="primary"*/}
-        {/*    disabled={reloadButtonDisabled}*/}
-        {/*    style={{*/}
-        {/*      marginBottom: 16,*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    Reload*/}
-        {/*  </Button>*/}
-        {/*)}*/}
       </div>
     </div>
   );

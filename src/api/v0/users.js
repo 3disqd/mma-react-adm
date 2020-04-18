@@ -1,11 +1,19 @@
 import { AxiosMMMA } from './index.js';
-import localStorageService from '../../LocalStorageService'
-// import uuid from "uuid";
+import tokensService from '../../TokensService';
 
 const route = '/users';
 
 export default {
-  // get: () => API.get('/users.json'),
-  login: (email, password) => AxiosMMMA.post(route+'/login', { email, password }),
-  refresh: () => AxiosMMMA.post(route+'/refresh', {refreshToken: localStorageService.getRefreshToken()})
+  login: (email, password) =>
+    AxiosMMMA.post(route + '/login', { email, password }),
+  refresh: () =>
+    AxiosMMMA.post(route + '/refresh', {
+      refreshToken: tokensService.getRefreshToken(),
+    }),
+  registration: (email, password) =>
+    AxiosMMMA.post(route + '/registration', { email, password }),
+  endSession: () =>
+    AxiosMMMA.post(route + '/endSession', {
+      refreshToken: tokensService.getRefreshToken(),
+    }),
 };

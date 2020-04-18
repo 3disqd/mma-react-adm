@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
-import styles from './LoginForm.module.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import styles from './RegistrationForm.module.css';
+import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 
-const LoginForm = () => {
-  const { login, loginError } = useContext(UserContext);
+const RegistrationForm = () => {
+  const { registration, error } = useContext(UserContext);
 
   return (
-    <div className={styles.loginForm}>
+    <div className={styles.registrationForm}>
       <Form
         name="normal_login"
         className={styles.from}
@@ -23,13 +23,13 @@ const LoginForm = () => {
           },
         }}
         onFinish={e => {
-          login(e.email, e.password);
+          registration(e.email, e.password);
         }}
       >
         <Form.Item
           name="email"
-          help={loginError || undefined}
-          validateStatus={!!loginError ? 'error' : undefined}
+          help={error || undefined}
+          validateStatus={!!error ? 'error' : undefined}
           rules={[
             {
               required: true,
@@ -42,8 +42,8 @@ const LoginForm = () => {
         </Form.Item>
         <Form.Item
           name="password"
-          help={loginError || undefined}
-          validateStatus={!!loginError ? 'error' : undefined}
+          help={error || undefined}
+          validateStatus={!!error ? 'error' : undefined}
           rules={[
             {
               required: true,
@@ -57,25 +57,16 @@ const LoginForm = () => {
             placeholder="Password"
           />
         </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Link className={styles.forgot} to="/forgot">
-            Forgot password
-          </Link>
-        </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.button}>
-            Log in
+            Register
           </Button>
-          Or <Link to="/reg">register now!</Link>
+          Or <Link to="/login">login now!</Link>
         </Form.Item>
       </Form>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegistrationForm;

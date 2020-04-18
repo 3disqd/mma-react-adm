@@ -3,7 +3,7 @@ import users from './users';
 import organizations from './organizations';
 import products from './products';
 import points from './points';
-import localStorageService from '../../LocalStorageService';
+import tokensService from '../../TokensService';
 import api from '../v0';
 
 export const AxiosMMMA = axios.create({
@@ -15,7 +15,7 @@ export const AxiosMMMA = axios.create({
 });
 
 AxiosMMMA.interceptors.request.use(async config => {
-  const token = localStorageService.getAccessToken();
+  const token = tokensService.getAccessToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -36,9 +36,8 @@ AxiosMMMA.interceptors.response.use(
       const {
         data: { jwt, rt },
       } = res;
-      console.log(jwt, rt);
       if (jwt && rt) {
-        localStorageService.setToken(jwt, rt);
+        tokensService.setToken(jwt, rt);
       } else {
         // reject?
       }

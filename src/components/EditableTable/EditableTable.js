@@ -23,7 +23,7 @@ const EditableTable = ({
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState('');
   const [newItems, setNewItems] = useState([]);
-  const [tableSize, setTableSize] = useState('asd');
+  const [tableSize, setTableSize] = useState('small');
 
   const handleAdd = () => {
     setNewItems([newItemTemplate]);

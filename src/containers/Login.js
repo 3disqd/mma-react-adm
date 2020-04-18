@@ -28,18 +28,7 @@ const Login = () => {
       });
   };
 
-  return (
-    <>
-      <button
-        onClick={() => {
-          localStorage.setItem('test', 'test');
-        }}
-      >
-        set some
-      </button>
-      <LoginForm onFinish={onSubmit} error={errorMessage} />
-    </>
-  );
+  return <LoginForm onFinish={onSubmit} error={errorMessage} />;
 };
 
 export default Login;

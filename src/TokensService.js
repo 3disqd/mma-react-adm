@@ -3,12 +3,9 @@ const setToken = (accessToken, refreshToken) => {
   localStorage.setItem('rt', refreshToken);
 };
 
-const getAccessToken = () => {
-  return localStorage.getItem('tkn');
-};
-const getRefreshToken = () => {
-  return localStorage.getItem('rt');
-};
+const getAccessToken = () => localStorage.getItem('tkn');
+
+const getRefreshToken = () => localStorage.getItem('rt');
 const clearToken = () => {
   localStorage.removeItem('tkn');
   localStorage.removeItem('rt');

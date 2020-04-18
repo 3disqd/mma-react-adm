@@ -1,26 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import localStorageService from '../../LocalStorageService';
+import { UserContext } from '../../contexts/UserContext';
 
-const PrivateRoute = ({ children, path, component, render, ...rest }) => (
-  <Route
-    {...component}
-    {...path}
-    {...render}
-    {...rest}
-    render={({ location }) =>
-      localStorageService.getAccessToken() ? (
-        children
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { from: location },
-          }}
-        />
-      )
-    }
-  />
-);
+const PrivateRoute = ({
+  path,
+  component: Component,
+  location,
+  children,
+  ...rest
+}) => {
+  const { token } = useContext(UserContext);
+
+  return (
+    <Route
+      {...path}
+      {...rest}
+      render={({ location, ...props }) => {
+        return token ? (
+          children || <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location },
+            }}
+          />
+        );
+      }}
+    />
+  );
+};
 
 export default PrivateRoute;

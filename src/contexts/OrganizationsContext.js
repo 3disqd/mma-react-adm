@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import api from '../api/v0';
 import { find } from 'lodash';
+import tokensService from '../TokensService';
 
 export const OrganizationsContext = React.createContext({
+  currentOrganizationId: '',
   organizations: [],
   loading: true,
   getOrganizations: () => {},
@@ -10,12 +12,19 @@ export const OrganizationsContext = React.createContext({
   updateOrganization: () => {},
   addProductToOrganizationById: () => {},
   updateProduct: () => {},
+  selectOrganization: () => {},
 });
 
 export const OrganizationsProvider = props => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [organizations, setOrganizations] = useState([]);
+
+  const [currentOrganizationId, setCurrentOrganizationId] = useState('');
+
+  const selectOrganization = useCallback(id => {
+    setCurrentOrganizationId(id);
+  }, []);
 
   const getOrganizations = useCallback(() => {
     setLoading(true);
@@ -38,27 +47,26 @@ export const OrganizationsProvider = props => {
       });
   }, []);
 
-  const addOrganization = organization => {
+  const addOrganization = useCallback(organization => {
     setLoading(true);
     api.organizations
       .create(organization.name)
       .then(res => {
-        const newData = [
+        setOrganizations(organizations => [
           {
             ...res.data,
           },
           ...organizations,
-        ];
-        setOrganizations(newData);
+        ]);
         setLoading(false);
       })
       .catch(err => {
         console.log(err);
         setLoading(false);
       });
-  };
+  }, []);
 
-  const updateOrganization = (id, row) => {
+  const updateOrganization = useCallback((id, row) => {
     const update = {
       ...(row.name && { name: row.name }),
       ...(row.kek && { kek: row.kek }),
@@ -67,17 +75,18 @@ export const OrganizationsProvider = props => {
     api.organizations
       .update(id, update)
       .then(res => {
-        const newData = [...organizations];
-        const index = newData.findIndex(item => res.data.id === item.id);
-        newData.splice(index, 1, res.data);
-        setOrganizations(newData);
+        setOrganizations(organizations => {
+          return organizations.map(organization =>
+            res.data.id === organization.id ? res.data : organization
+          );
+        });
         setLoading(false);
       })
       .catch(err => {
         console.log(err);
         setLoading(false);
       });
-  };
+  }, []);
 
   //TODO завернуть фнкции в колбеки
 
@@ -132,7 +141,9 @@ export const OrganizationsProvider = props => {
   }, []);
 
   useEffect(() => {
-    getOrganizations();
+    if (tokensService.getAccessToken()) {
+      getOrganizations();
+    }
   }, [getOrganizations]);
 
   const organizationsById = useMemo(() => {
@@ -147,6 +158,7 @@ export const OrganizationsProvider = props => {
     <OrganizationsContext.Provider
       value={{
         ...organizationsById,
+        currentOrganizationId,
         organizations,
         loading,
         getOrganizations,
@@ -154,6 +166,7 @@ export const OrganizationsProvider = props => {
         updateOrganization,
         addProductToOrganizationById,
         updateProduct,
+        selectOrganization,
       }}
     >
       {props.children}
