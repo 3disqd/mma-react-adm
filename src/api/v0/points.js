@@ -4,7 +4,9 @@ const route = '/points/';
 
 export default {
   getAll: () => AxiosMMMA.get(route),
-  getByOrganizationId: organizationId => AxiosMMMA.get(route + organizationId),
+  getById: id => AxiosMMMA.get(route + id),
+  getByOrganizationId: organizationId =>
+    AxiosMMMA.get(route + 'byOrgId/' + organizationId),
   addPointToOrganization: (organizationId, options = {}) =>
     AxiosMMMA.post(route, { organizationId, options }),
   updatePoint: (id, update = {}) => AxiosMMMA.patch(route + id, { update }),

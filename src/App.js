@@ -18,6 +18,8 @@ import KekPage from './pages/KekPage';
 import AboutPage from './pages/AboutPage';
 import AboutPageHeader from './pages/AboutPageHeader';
 import RegistrationPage from './pages/RegistrationPage';
+import PointPage from './pages/PointPage';
+import PointPageHeader from './pages/PointPageHeader';
 
 const App = () => {
   return (
@@ -46,20 +48,34 @@ const App = () => {
                   </Switch>
                   {/*PageHeader*/}
                   <Switch>
+                    <PrivateRoute
+                      path={'/org/:orgId/point/:pointId'}
+                      component={PointPageHeader}
+                    />
                     <PrivateRoute path={'/about'} component={AboutPageHeader} />
                   </Switch>
                   {/*Content*/}
                   <Switch>
                     <PrivateRoute path={'/about'} component={AboutPage} />
                     <PrivateRoute
+                      exact
                       path={'/org/:orgId/points'}
                       component={PointsPage}
+                    />
+                    <PrivateRoute
+                      exact
+                      path={'/org/:orgId/point/:pointId'}
+                      component={PointPage}
                     />
                     <PrivateRoute
                       path={'/org/:orgId/products'}
                       component={ProductsPage}
                     />
-                    <PrivateRoute path={'/org'} exact component={OrganizationPage} />
+                    <PrivateRoute
+                      path={'/org'}
+                      exact
+                      component={OrganizationPage}
+                    />
                     <PrivateRoute path={'/users'} component={KekPage} />
 
                     {/*======================*/}
