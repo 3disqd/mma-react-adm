@@ -21,13 +21,14 @@
   },
   "scripts": {
     "start": "PORT=3030 react-app-rewired start",
+    "start:build": "serve -s build",
     "build": "react-app-rewired build",
     "build:react": "react-scripts build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "build-and-surge-deploy": "yarn run build && cd build && surge --domain https://test-3disqd-vk-mini-app.surge.sh",
     "surge-deploy": "surge --domain https://test-3disqd-vk-mini-app.surge.sh",
-    "aws-sync": "aws --endpoint-url=https://storage.yandexcloud.net s3 sync --delete --exclude='*.map' --exclude='.DS_Store' build/ s3://skv/"
+    "aws-sync": "aws --endpoint-url=https://storage.yandexcloud.net s3 sync --delete --exclude='*.map' --exclude='.DS_Store' build/ s3://mma/"
   },
   "eslintConfig": {
     "extends": "react-app"

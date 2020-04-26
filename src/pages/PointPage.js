@@ -1,11 +1,15 @@
 import React from 'react';
+import Content from '../components/Content/Content';
+import PointCard from '../components/PointCard/PointCard';
 
-const PointPage = () => {
-
+const PointPage = ({ ...props }) => {
   return (
-    <div>
-
-    </div>
+    <Content>
+      <PointCard
+        pointId={props.match.params.pointId}
+        orgId={props.match.params.orgId}
+      />
+    </Content>
   );
 };
 

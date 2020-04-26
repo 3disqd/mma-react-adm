@@ -30,7 +30,11 @@ const OrgButton = ({ className }) => {
       placement="bottomLeft"
     >
       <div className={className}>
-        {currentOrganizationId ? currentOrganization.name : 'select org'}
+        {currentOrganizationId
+          ? currentOrganization
+            ? currentOrganization.name
+            : 'loading'
+          : 'select org'}
       </div>
     </Dropdown>
   );

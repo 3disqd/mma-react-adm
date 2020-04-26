@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 
 export const MainSiderContext = React.createContext({
-  collapsed: false,
+  collapsed: true,
   toggle: () => {},
 });
 
 export const MainSiderProvider = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const toggle = useCallback(() => {
     setCollapsed(collapsed => !collapsed);

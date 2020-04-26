@@ -64,7 +64,7 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
           selectDays(value);
         }}
         optionLabelProp="label"
-        size="small"
+        // size="small"
 
         // defaultValue={[1, 7]}
       >
@@ -78,7 +78,7 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
           onChange={(momentValue, stringValue) => {
             setFrom(stringValue);
           }}
-          size="small"
+          // size="small"
           // defaultValue={moment('03:30', 'HH:mm')}
         />
       </div>
@@ -90,7 +90,7 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
           onChange={(momentValue, stringValue) => {
             setTo(stringValue);
           }}
-          size="small"
+          // size="small"
           // defaultValue={moment('23:30', 'HH:mm')}
         />
       </div>
@@ -115,7 +115,7 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
       </Checkbox>
       <br />
       <Input
-        size="small"
+        // size="small"
         placeholder="small size"
         onChange={e => {
           setComment(e.target.value);
@@ -133,7 +133,6 @@ const InputSchedule = ({ value = {}, id, onChange = () => {} }) => {
       {/*{parsedSchedule.map(i => (*/}
       {/*  <ParsedScheduleListItem item={i} key={i.firstDayNum + i.lastDayNum} />*/}
       {/*))}*/}
-      <br />
     </div>
   );
 };

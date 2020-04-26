@@ -1,26 +1,27 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import api from '../api/v0';
+import unionBy from 'lodash/unionBy';
+import groupBy from 'lodash/groupBy';
+import keyBy from 'lodash/keyBy';
+import mapKeys from 'lodash/mapKeys';
+import mapValues from 'lodash/mapValues';
+import uniq from 'lodash/uniq';
 
 export const PointsContext = React.createContext({
-  pointsByOrg: {},
   loading: false,
   loadPointByOrganizationId: () => {},
 });
 
 export const PointsProvider = props => {
   const [loading, setLoading] = useState(false);
-  const [pointsByOrg, setPointsByOrg] = useState({});
+  const [points, setPoints] = useState([]);
 
   const addPointToOrganization = useCallback((id, point) => {
     setLoading(true);
     api.points
       .addPointToOrganization(id, point)
       .then(res => {
-        console.log(res);
-        setPointsByOrg(pointsByOrg => ({
-          ...pointsByOrg,
-          [id]: [res.data, ...pointsByOrg[id]],
-        }));
+        setPoints(points => [res.data, ...points]);
         setLoading(false);
       })
       .catch(err => {
@@ -34,16 +35,21 @@ export const PointsProvider = props => {
     api.points
       .getByOrganizationId(id)
       .then(res => {
-        setPointsByOrg(pointsByOrg => ({
-          ...pointsByOrg,
-          [id]: res.data.reverse(),
-        }));
+        setPoints(points => unionBy(points, res.data.reverse(), 'id'));
         setLoading(false);
       })
       .catch(err => {
         console.log(err);
         setLoading(false);
       });
+  }, []);
+
+  const loadPointById = useCallback(id => {
+    setLoading(true);
+    api.points.getById(id).then(res => {
+      setPoints(points => [...points, res.data]);
+      setLoading(false);
+    });
   }, []);
 
   const updatePoint = useCallback((id, options) => {
@@ -60,13 +66,10 @@ export const PointsProvider = props => {
     api.points
       .updatePoint(id, update)
       .then(res => {
-        // setPointsByOrg('fuck')
-        setPointsByOrg(pointsByOrg => {
-          const newData = [...pointsByOrg[res.data.organizationId]];
-          const index = newData.findIndex(item => res.data.id === item.id);
-          newData.splice(index, 1, res.data);
-          return { ...pointsByOrg, [res.data.organizationId]: newData };
-        });
+        console.log(res.data);
+        setPoints(points =>
+          points.map(point => (point.id === res.data.id ? res.data : point))
+        );
         setLoading(false);
       })
       .catch(err => {
@@ -75,11 +78,34 @@ export const PointsProvider = props => {
       });
   }, []);
 
+  //монга не гарантирует уникальность ид в разных коллекциях
+  const pointsByOrgId = useMemo(
+    () =>
+      mapKeys(groupBy(points, 'organizationId'), (val, key) => key + '_points'),
+    [points]
+  );
+
+  //TODO чет нечитабельно получилось; мб зачейнить
+  const productTagsByOrgId = useMemo(
+    () =>
+      mapValues(
+        mapKeys(groupBy(points, 'organizationId'), (val, key) => key + '_tags'),
+        points =>
+          uniq(points.reduce((total, point) => [...total, ...point.groups], []))
+      ),
+    [points]
+  );
+
+  const pointsById = useMemo(() => keyBy(points, 'id'), [points]);
+
   return (
     <PointsContext.Provider
       value={{
-        ...pointsByOrg,
+        ...pointsById,
+        ...pointsByOrgId,
+        ...productTagsByOrgId,
         loading,
+        loadPointById,
         loadPointByOrganizationId,
         addPointToOrganization,
         updatePoint,

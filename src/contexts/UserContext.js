@@ -35,6 +35,8 @@ export const UserProvider = props => {
       })
       .catch(err => {
         console.log(err);
+        setToken('test');
+
         // if (err.response.status === 403) {
         setRegistrationError('ОШИБКА РЕГСТРАЦИИ');
         // }

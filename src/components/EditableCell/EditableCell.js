@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, InputNumber } from 'antd';
 import InputTags from './InputTags';
-import InputSchedule from './InputSchedule';
+import InputSchedule from '../InputSchedule/InputSchedule';
 
 const EditableCell = ({
   editing,

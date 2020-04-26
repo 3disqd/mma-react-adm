@@ -20,10 +20,13 @@ export const OrganizationsProvider = props => {
 
   const [organizations, setOrganizations] = useState([]);
 
-  const [currentOrganizationId, setCurrentOrganizationId] = useState('');
+  const [currentOrganizationId, setCurrentOrganizationId] = useState(
+    localStorage.getItem('currentOrg')
+  );
 
   const selectOrganization = useCallback(id => {
     setCurrentOrganizationId(id);
+    localStorage.setItem('currentOrg', id);
   }, []);
 
   const getOrganizations = useCallback(() => {
@@ -32,6 +35,7 @@ export const OrganizationsProvider = props => {
       .getAll()
       .then(res => {
         // console.log(res);
+        setCurrentOrganizationId(id => (id === null ? res.data[0].id : id));
         setOrganizations(
           res.data
             .map(organization => ({

@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+}
+.input {
+  margin-right: 20px;
+}
+.preview {
+}
+.item {
+  text-transform: capitalize;
+}

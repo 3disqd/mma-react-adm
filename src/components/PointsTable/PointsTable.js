@@ -3,11 +3,12 @@ import EditableTable from '../EditableTable/EditableTable';
 import { PointsContext } from '../../contexts/PointsContext';
 import TagsCell from '../TagsCell/TagsCell';
 import ParsedSchedule from '../ParsedSchedule/ParsedSchedule';
+import { Link } from 'react-router-dom';
 
 const PointsTable = ({ orgId }) => {
   const {
     loading,
-    [orgId]: data,
+    [orgId + '_points']: data,
     loadPointByOrganizationId,
     addPointToOrganization,
     updatePoint,
@@ -22,10 +23,11 @@ const PointsTable = ({ orgId }) => {
   };
 
   useEffect(() => {
-    console.log('FETCH POINTS!');
-
-    loadPointByOrganizationId(orgId);
-  }, [orgId, loadPointByOrganizationId]);
+    if (!data) {
+      console.log('FETCH POINTS!');
+      loadPointByOrganizationId(orgId);
+    }
+  }, [orgId, loadPointByOrganizationId, data]);
 
   const columns = [
     {
@@ -34,6 +36,7 @@ const PointsTable = ({ orgId }) => {
       width: '15%',
       editable: false,
       required: false,
+      render: id => <Link to={`/org/${orgId}/point/${id}`}>{id}</Link>,
     },
     {
       title: 'name',
@@ -54,7 +57,7 @@ const PointsTable = ({ orgId }) => {
       dataIndex: 'schedule',
       // width: '200px',
       inputType: 'schedule',
-      editable: true,
+      // editable: true,
       render: schedule => <ParsedSchedule schedule={schedule} />,
     },
     {

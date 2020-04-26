@@ -1,35 +1,35 @@
 import React from 'react';
 import { PageHeader } from 'antd';
-import itemRender from '../components/BreadcrumbItemRender/BreadcrumbItemRender';
-
-const routes = [
-  {
-    path: '',
-    breadcrumbName: 'home',
-  },
-  {
-    path: 'first',
-    breadcrumbName: 'first',
-    children: [
-      {
-        path: '/general',
-        breadcrumbName: 'General',
-      },
-      {
-        path: '/layout',
-        breadcrumbName: 'Layout',
-      },
-      {
-        path: '/navigation',
-        breadcrumbName: 'Navigation',
-      },
-    ],
-  },
-  {
-    path: 'second',
-    breadcrumbName: 'second',
-  },
-];
+// import itemRender from '../components/BreadcrumbItemRender/BreadcrumbItemRender';
+//
+// const routes = [
+//   {
+//     path: '',
+//     breadcrumbName: 'home',
+//   },
+//   {
+//     path: 'first',
+//     breadcrumbName: 'first',
+//     children: [
+//       {
+//         path: '/general',
+//         breadcrumbName: 'General',
+//       },
+//       {
+//         path: '/layout',
+//         breadcrumbName: 'Layout',
+//       },
+//       {
+//         path: '/navigation',
+//         breadcrumbName: 'Navigation',
+//       },
+//     ],
+//   },
+//   {
+//     path: 'second',
+//     breadcrumbName: 'second',
+//   },
+// ];
 
 const AboutPageHeader = () => {
   return (
@@ -38,7 +38,7 @@ const AboutPageHeader = () => {
         style={{ background: 'white' }}
         className="site-page-header"
         title="Title"
-        breadcrumb={{ routes, itemRender }}
+        // breadcrumb={{ routes, itemRender }} // сломал
         subTitle="This is a subtitle"
       />
     </>
