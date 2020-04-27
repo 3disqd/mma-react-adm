@@ -1,13 +1,8 @@
-import React, { useContext } from 'react';
-import { MainSiderContext } from '../../../contexts/MainSiderContext';
-import { Drawer, Layout, Grid } from 'antd';
-const { useBreakpoint } = Grid;
+import React from 'react';
+import { Drawer, Layout } from 'antd';
 
-const SiderMenuContainer = ({ children }) => {
-  const { collapsed, toggle } = useContext(MainSiderContext);
-  const screens = useBreakpoint();
-
-  return screens.md ? (
+const SiderMenuContainer = ({ children, isLayout, collapsed, toggle }) => {
+  return isLayout ? (
     <Layout.Sider
       collapsed={collapsed}
       onCollapse={toggle}

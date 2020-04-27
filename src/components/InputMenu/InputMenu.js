@@ -11,7 +11,7 @@ const InputMenu = ({ tags }) => {
   const [panes, setPanes] = useState([
     {
       title: 'Tab 1',
-      products: [],
+      products: ['5e89d72866997e2cc01d5ad9', '5e9255eb1e520cec3b8eee1a'],
       content: { text: 'Content of Tab 1' },
     },
     {
@@ -51,7 +51,7 @@ const InputMenu = ({ tags }) => {
   const addProduct = useCallback(key => {
     setPanes(panes =>
       panes.map((pane, num) =>
-        num === key ? { ...pane, products: [...pane.products, {}] } : pane
+        num === key ? { ...pane, products: [...pane.products, ''] } : pane
       )
     );
   }, []);
@@ -69,6 +69,35 @@ const InputMenu = ({ tags }) => {
           : pane
       )
     );
+  }, []);
+
+  const removeProduct = useCallback((paneNum, productNum) => {
+    setPanes(panes =>
+      panes.map((pane, num) =>
+        paneNum === num
+          ? {
+              ...pane,
+              products: pane.products.filter(
+                (product, number) => number !== productNum
+              ),
+            }
+          : pane
+      )
+    );
+  }, []);
+
+  const moveProduct = useCallback((paneNum, productNum, direction) => {
+    setPanes(panes => {
+      const shift = direction === 'up' ? -1 : 1;
+      let newOrder = [...panes[paneNum].products];
+      [newOrder[productNum], newOrder[productNum + shift]] = [
+        newOrder[productNum + shift],
+        newOrder[productNum],
+      ];
+      return panes.map((pane, num) =>
+        num === paneNum ? { ...pane, products: newOrder } : pane
+      );
+    });
   }, []);
 
   const editContent = (key, field) => {
@@ -90,7 +119,7 @@ const InputMenu = ({ tags }) => {
     setActiveKey(key + shift + '');
   }, []);
 
-  const remove = useCallback(key => {
+  const removeTab = useCallback(key => {
     setPanes(panes => {
       if (key + 1 === panes.length) {
         setActiveKey(panes.length - 2 + '');
@@ -114,7 +143,7 @@ const InputMenu = ({ tags }) => {
           <TabContent
             {...pane}
             onRemove={() => {
-              remove(num);
+              removeTab(num);
             }}
             onChange={(field, value) => {
               editContent(num, field, value);
@@ -125,6 +154,12 @@ const InputMenu = ({ tags }) => {
             }}
             selectProduct={(productNum, productId) => {
               setProduct(num, productNum, productId);
+            }}
+            removeProduct={productNum => {
+              removeProduct(num, productNum);
+            }}
+            moveProduct={(productNum, direction) => {
+              moveProduct(num, productNum, direction);
             }}
             moveTabLeft={
               num === 0
@@ -143,7 +178,16 @@ const InputMenu = ({ tags }) => {
           />
         </TabPane>
       )),
-    [panes, groupsOptions, remove, moveTab, addProduct, setProduct]
+    [
+      panes,
+      groupsOptions,
+      removeTab,
+      moveTab,
+      addProduct,
+      setProduct,
+      removeProduct,
+      moveProduct,
+    ]
   );
 
   return (

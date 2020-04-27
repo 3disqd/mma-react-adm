@@ -4,7 +4,7 @@ import {
   ArrowDownOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import { Button, Select } from 'antd';
+import { Button, Popconfirm, Select } from 'antd';
 import ProductSelectInner from '../../../ProductSelectInner/ProductSelectInner';
 import ProductSelectLabel from '../../../ProductSelectLabel/ProductSelectLabel';
 
@@ -13,14 +13,28 @@ const { Option } = Select;
 const ProductSelector = ({
   options = [],
   onChange = () => {},
+  remove = () => {},
   selectedProducts,
+  defaultValue,
+  moveProductUp,
+  moveProductDown,
 }) => {
   return (
     <div>
-      <Button type={'link'} icon={<ArrowUpOutlined />} />
-      <Button type={'link'} icon={<ArrowDownOutlined />} />
+      <Button
+        type={'link'}
+        disabled={!moveProductUp}
+        onClick={moveProductUp}
+        icon={<ArrowUpOutlined />}
+      />
+      <Button
+        type={'link'}
+        disabled={!moveProductDown}
+        onClick={moveProductDown}
+        icon={<ArrowDownOutlined />}
+      />
       <Select
-        // defaultValue="5e9255eb1e520cec3b8eee1a"
+        defaultValue={defaultValue}
         showSearch
         style={{ width: 300 }}
         onChange={onChange}
@@ -35,15 +49,20 @@ const ProductSelector = ({
             key={option.id}
             value={option.id}
             string={getProductSearchString(option)}
-            disabled={selectedProducts.includes(option.id)}
-            // label={'123'}
+            disabled={
+              defaultValue === option.id
+                ? false
+                : selectedProducts.includes(option.id)
+            }
             label={<ProductSelectLabel product={option} />}
           >
             <ProductSelectInner product={option} />
           </Option>
         ))}
       </Select>
-      <Button type={'link'} danger icon={<DeleteOutlined />} />
+      <Popconfirm title="Sure to cancel?" onConfirm={remove}>
+        <Button type={'link'} danger icon={<DeleteOutlined />} />
+      </Popconfirm>
     </div>
   );
 };

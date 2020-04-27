@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styles from './SiderMenu.module.css';
 import SiderMenuContainer from './SiderMenuContainer/SiderMenuContainer';
-import { Menu } from 'antd';
+import { Grid, Menu } from 'antd';
 import Logo from '../Logo/Logo';
 import { Link, useLocation } from 'react-router-dom';
 import { OrganizationsContext } from '../../contexts/OrganizationsContext';
@@ -14,13 +14,21 @@ import {
   LoginOutlined,
   DashboardOutlined,
 } from '@ant-design/icons';
+import { MainSiderContext } from '../../contexts/MainSiderContext';
+const { useBreakpoint } = Grid;
 
 const SiderMenu = () => {
   const { currentOrganizationId } = useContext(OrganizationsContext);
-
+  const { collapsed, toggle } = useContext(MainSiderContext);
+  const screens = useBreakpoint();
   const location = useLocation();
+
   return (
-    <SiderMenuContainer>
+    <SiderMenuContainer
+      isLayout={screens.md}
+      toggle={toggle}
+      collapsed={collapsed}
+    >
       <div className={styles.logoWrapper}>
         <Logo />
       </div>
@@ -28,6 +36,11 @@ const SiderMenu = () => {
         mode="inline"
         selectedKeys={[location.pathname]}
         className={styles.menu}
+        onClick={() => {
+          if (!screens.md) {
+            toggle();
+          }
+        }}
       >
         <Menu.Item key="/">
           <DashboardOutlined />

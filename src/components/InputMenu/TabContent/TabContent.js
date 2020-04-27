@@ -20,6 +20,8 @@ const TabContent = ({
   products = [],
   addProduct = () => {},
   selectProduct = () => {},
+  removeProduct = () => {},
+  moveProduct = () => {},
 }) => {
   const { orgId } = useParams();
   const { [orgId]: organization } = useContext(OrganizationsContext);
@@ -57,16 +59,39 @@ const TabContent = ({
       {/*TODO key fix*/}
       {products.map((product, n) => (
         <ProductSelector
-          key={n}
+          key={product + n}
           options={availableProducts}
           selectedProducts={products}
           onChange={productId => {
             console.log(productId);
             selectProduct(n, productId);
           }}
+          defaultValue={product}
+          remove={() => {
+            removeProduct(n);
+          }}
+          moveProductUp={
+            n === 0
+              ? undefined
+              : () => {
+                  moveProduct(n, 'up');
+                }
+          }
+          moveProductDown={
+            n === products.length - 1
+              ? undefined
+              : () => {
+                  moveProduct(n, 'down');
+                }
+          }
         />
       ))}
-      <Button icon={<PlusOutlined />} type="dashed" onClick={addProduct}>
+      <Button
+        icon={<PlusOutlined />}
+        type="dashed"
+        disabled={products.includes('')}
+        onClick={addProduct}
+      >
         Add product
       </Button>
     </>
